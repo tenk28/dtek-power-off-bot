@@ -1,0 +1,26 @@
+# Copy to config.toml and adjust. The bot token goes to .env (TELEGRAM_BOT_TOKEN), not here.
+
+[telegram]
+channel_id = "@my_power_channel"   # public channel username or numeric id like -1001234567890
+alert_chat_id = 123456789          # optional; private chat/group for failure alerts, defaults to channel_id
+silent = false                     # disable_notification for schedule posts
+
+[schedule]
+region = "kyiv-region"             # also available: kyiv, dnipro, odesa
+queue = "3.2"
+region_title = "Київська обл."     # optional; defaults to JSON regionAffiliation
+
+[source]
+json_url = "https://raw.githubusercontent.com/Baskerville42/outage-data-ua/main/data/{region}.json"
+image_url = "https://raw.githubusercontent.com/Baskerville42/outage-data-ua/main/images/{region}/gpv-{queue_dashed}.png"
+
+[polling]
+check_interval_secs = 300          # >= 60
+failure_alert_threshold = 3        # consecutive failed checks before an alert
+stale_after_secs = 10800           # data older than this counts as a failed check
+image_wait_max_secs = 900          # how long to wait for the image to catch up with the JSON
+http_timeout_secs = 15
+missing_today_grace_secs = 3600    # after midnight, missing "today" data is not a failure for this long
+
+[storage]
+state_path = "/data/state.json"
